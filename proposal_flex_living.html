@@ -415,7 +415,7 @@
         <div class="header-top">
             <div class="header-info">
                 <span class="doc-type">הסכם התקשרות שיווקית</span>
-                <span>30 ביוני 2026</span>
+                <span id="doc-date"></span>
             </div>
         </div>
         <h1>הצעת מחיר והסכם התקשרות:<br>אסטרטגיית שיווק וניהול פאנל משקיעים</h1>
@@ -517,6 +517,20 @@
     </div>
 
 </div>
+
+<script>
+(function () {
+    const months = [
+        'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
+        'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'
+    ];
+    const now = new Date();
+    const el = document.getElementById('doc-date');
+    if (el) {
+        el.textContent = now.getDate() + ' ב' + months[now.getMonth()] + ' ' + now.getFullYear();
+    }
+})();
+</script>
 
 </body>
 </html>
