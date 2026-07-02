@@ -293,8 +293,27 @@
 
         .sig-line {
             border-bottom: 1px solid var(--ink);
-            margin-top: 40px;
+            margin-top: 16px;
             margin-bottom: 6px;
+            position: relative;
+            min-height: 72px;
+        }
+
+        .sig-image {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 200px;
+            max-height: 64px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .sig-image[hidden] {
+            display: none;
         }
 
         .sig-label {
@@ -404,6 +423,10 @@
         @media print {
             body { background: #fff; padding: 0; }
             .page { box-shadow: none; width: 100%; padding: 15mm 18mm; }
+            .sig-image {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
@@ -483,8 +506,9 @@
         </h2>
         <p>מתוך הבנה שמחזור מכירות בעסקאות נדל"ן דורש זמן הבשלה (Sales Cycle) וכי המטרה המשותפת שלנו היא יציאה מהירה לשטח וטעינת המשפך, נעבוד במודל היברידי שמייצר שותפות אינטרסים מלאה:</p>
         <ul class="terms-list">
-            <li><strong>דמי ניהול ואופטימיזציה שוטפת (ריטיינר חודשי):</strong> €1,200 בחודש (עבור חודשים 2 ו-3). תשלום זה מבטיח ניהול קמפיינים יומי, ניתוח נתוני מעורבות, ועדכון שוטף ומהיר של המסרים בחומרי המכירה ובעמודים בהתאם לפידבק מהשטח.</li>
-            <li><strong>עמלת הצלחה (Success Bonus):</strong> בונוס קבוע של €3,000 ישולם עם חתימת חוזה מכירה עבור כל יחידה שתימכר למשקיע שהגיע דרך מערך השיווק הדיגיטלי, ללא הגבלת זמן או תלות בתוקף החוזה בזמן המכירה בפועל.</li>
+            <li><strong>דמי ניהול ואופטימיזציה שוטפת (ריטיינר חודשי):</strong> €1,700 בחודש (עבור חודשים 2 ו-3). תשלום זה מבטיח ניהול קמפיינים יומי, ניתוח נתוני מעורבות, ועדכון שוטף ומהיר של המסרים בחומרי המכירה ובעמודים בהתאם לפידבק מהשטח.</li>
+            <li><strong>עמלת הצלחה (Success Bonus):</strong> בונוס של €2,500 ישולם עם חתימת חוזה מכירה עבור כל יחידה שתימכר למשקיע שהגיע דרך מערך השיווק הדיגיטלי, ללא הגבלת זמן או תלות בתוקף החוזה בזמן המכירה בפועל.</li>
+            <li><strong>קיזוז מעמלת ההצלחה:</strong> מכל תשלום בונוס יקוזזו תחילה כל ההוצאות התפעוליות של המשפך (למעט תקציב המדיה המשולם ישירות לפלטפורמות), ובכלל זה דמי ההקמה (€5,000) ודמי הניהול החודשיים (€1,700 לחודש). בונוס נטו ישולם רק לאחר שסך הבונוסים המצטבר עולה על סך ההוצאות המקוזזות.</li>
             <li><strong>הגדרת מקור הליד:</strong> בהתאם לסיכום, ייחשבו כליד של מערך השיווק הדיגיטלי משקיעים שהגיעו דרך הקמפיין או המשפך הדיגיטלי. בהתחשב בכך שמדובר בפרויקט בקנה מידה קטן (עד 9 יחידות), מקור ההגעה ייוודע בשיחה ישירה עם המשקיע – ללא צורך במנגנון ייחוס מורכב.</li>
         </ul>
     </section>
@@ -500,13 +524,19 @@
             <li><strong>מכירה מוקדמת:</strong> מוסכם כי גם במקרה בו כלל היחידות בפרויקט יימכרו לפני תום תקופת 3 החודשים, התחייבות הלקוח לתשלום הריטיינר החודשי עבור מלוא התקופה (3 חודשים) תישאר בעינה.</li>
             <li><strong>סיום ההתקשרות לאחר תקופת המינימום:</strong> החל מהחודש הרביעי ואילך, כל צד רשאי להביא הסכם זה לסיומו בהודעה בכתב של 30 יום מראש.</li>
         </ul>
-        <p class="bank-note"><strong>פרטי העברה בנקאית:</strong> בנק דיסקונט, סניף 510 · חשבון 120948623 · בנימין פרידמן</p>
+        <div class="bank-note">
+            <strong>פרטי העברה בנקאית:</strong>
+            בנימין פרידמן · Israel Discount Bank Ltd.<br>
+            IBAN: IL89 0115 1000 0012 0948 623 · SWIFT/BIC: IDBLILITXXX
+        </div>
     </section>
 
     <div class="signatures">
         <div class="sig-block">
             <div class="sig-name">ביני פרידמן</div>
-            <div class="sig-line"></div>
+            <div class="sig-line">
+                <img class="sig-image" id="sender-signature" src="signature.png" alt="">
+            </div>
             <div class="sig-label">חתימת השולח</div>
         </div>
         <div class="sig-block">
@@ -528,6 +558,14 @@
     const el = document.getElementById('doc-date');
     if (el) {
         el.textContent = now.getDate() + ' ב' + months[now.getMonth()] + ' ' + now.getFullYear();
+    }
+
+    const sig = document.getElementById('sender-signature');
+    if (sig) {
+        sig.addEventListener('error', function () { sig.hidden = true; });
+        sig.addEventListener('load', function () {
+            if (sig.naturalWidth === 0) sig.hidden = true;
+        });
     }
 })();
 </script>

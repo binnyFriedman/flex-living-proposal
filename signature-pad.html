@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Pad</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .hidden { display: none !important; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', sans-serif;
+            background: #f0efed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 28px;
+            width: 100%;
+            max-width: 680px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .canvas-wrap {
+            position: relative;
+            width: 160mm;
+            height: 100mm;
+            max-width: 100%;
+            border: 1.5px dashed #ccc;
+            border-radius: 6px;
+            background: #fff;
+            margin: 0 auto 16px;
+            touch-action: none;
+        }
+
+        .canvas-wrap.capturing {
+            border-color: #999;
+            border-style: solid;
+        }
+
+        canvas {
+            display: block;
+            width: 160mm;
+            height: 100mm;
+            max-width: 100%;
+            cursor: default;
+        }
+
+        .canvas-wrap.capturing canvas {
+            cursor: crosshair;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            pointer-events: none;
+            transition: opacity 0.15s;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+        }
+
+        .overlay-prompt {
+            font-size: 15px;
+            color: #999;
+        }
+
+        .canvas-wrap.idle .overlay {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .overlay-capture-hint {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 11px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-clear {
+            background: #f0efed;
+            color: #333;
+        }
+
+        .btn-clear:hover { background: #e5e4e2; }
+
+        .btn-save {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .btn-save:hover { background: #333; }
+
+        .btn-save:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Draw your signature</h1>
+    <p>Click to begin, then sign with your trackpad or mouse — no need to hold the button down. Press any key when done.</p>
+
+    <div class="canvas-wrap idle" id="wrap">
+        <canvas id="pad"></canvas>
+        <div class="overlay" id="overlay">
+            <span class="overlay-prompt" id="overlay-prompt">Click here to begin</span>
+            <span class="overlay-capture-hint hidden" id="overlay-hint">Press any key when done</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn-clear" id="clear">Clear</button>
+        <button class="btn-save" id="save" disabled>Download signature.png</button>
+    </div>
+
+    <p class="hint">After saving, place the file next to proposal_flex_living.html — it will appear automatically on the proposal.</p>
+</div>
+
+<script>
+(function () {
+    const wrap = document.getElementById('wrap');
+    const canvas = document.getElementById('pad');
+    const ctx = canvas.getContext('2d');
+    const overlay = document.getElementById('overlay');
+    const overlayPrompt = document.getElementById('overlay-prompt');
+    const overlayHint = document.getElementById('overlay-hint');
+    const clearBtn = document.getElementById('clear');
+    const saveBtn = document.getElementById('save');
+
+    const dpr = window.devicePixelRatio || 1;
+    const STROKE_GAP_MS = 100;
+
+    let state = 'idle';
+    let hasInk = false;
+    let lastPos = null;
+    let strokeTimeout = null;
+    let inkSnapshot = null;
+
+    const rect = () => canvas.getBoundingClientRect();
+
+    function setupCtx() {
+        ctx.strokeStyle = '#161513';
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    }
+
+    function resize() {
+        const r = rect();
+        if (r.width === 0) return;
+
+        const snapshot = inkSnapshot;
+        canvas.width = r.width * dpr;
+        canvas.height = r.height * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        setupCtx();
+
+        if (snapshot) {
+            const img = new Image();
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, r.width, r.height);
+            };
+            img.src = snapshot;
+        }
+    }
+
+    function saveSnapshot() {
+        inkSnapshot = hasInk ? canvas.toDataURL('image/png') : null;
+    }
+
+    function setState(next) {
+        state = next;
+        wrap.classList.remove('idle', 'capturing', 'done');
+        wrap.classList.add(next);
+
+        if (next === 'idle') {
+            overlay.classList.remove('hidden');
+            overlayPrompt.classList.remove('hidden');
+            overlayHint.classList.add('hidden');
+        } else if (next === 'capturing') {
+            overlay.classList.add('hidden');
+            overlayPrompt.classList.add('hidden');
+            overlayHint.classList.remove('hidden');
+        } else {
+            overlay.classList.add('hidden');
+            overlayPrompt.classList.add('hidden');
+            overlayHint.classList.add('hidden');
+        }
+    }
+
+    function posFromEvent(e) {
+        const r = rect();
+        const src = e.touches ? e.touches[0] : e;
+        return { x: src.clientX - r.left, y: src.clientY - r.top };
+    }
+
+    function beginCapture() {
+        if (state !== 'idle') return;
+        setState('capturing');
+        lastPos = null;
+    }
+
+    function endCapture() {
+        if (state !== 'capturing') return;
+        clearTimeout(strokeTimeout);
+        lastPos = null;
+        setState('done');
+        saveSnapshot();
+    }
+
+    function markInk() {
+        if (!hasInk) {
+            hasInk = true;
+            saveBtn.disabled = false;
+        }
+    }
+
+    function plotPoint(p) {
+        if (!lastPos) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            lastPos = p;
+            return;
+        }
+
+        const dx = p.x - lastPos.x;
+        const dy = p.y - lastPos.y;
+        if (dx * dx + dy * dy < 1) return;
+
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        lastPos = p;
+        markInk();
+    }
+
+    function onMove(e) {
+        if (state !== 'capturing') return;
+        e.preventDefault();
+        plotPoint(posFromEvent(e));
+
+        clearTimeout(strokeTimeout);
+        strokeTimeout = setTimeout(function () {
+            lastPos = null;
+        }, STROKE_GAP_MS);
+    }
+
+    function reset() {
+        clearTimeout(strokeTimeout);
+        const r = rect();
+        ctx.clearRect(0, 0, r.width, r.height);
+        hasInk = false;
+        inkSnapshot = null;
+        lastPos = null;
+        saveBtn.disabled = true;
+        setState('idle');
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    overlay.addEventListener('click', beginCapture);
+    canvas.addEventListener('click', function () {
+        if (state === 'idle') beginCapture();
+    });
+
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('touchstart', function (e) {
+        if (state === 'idle') {
+            e.preventDefault();
+            beginCapture();
+        }
+    }, { passive: false });
+    canvas.addEventListener('touchmove', onMove, { passive: false });
+
+    document.addEventListener('keydown', function (e) {
+        if (state === 'capturing') {
+            e.preventDefault();
+            endCapture();
+        }
+    });
+
+    clearBtn.addEventListener('click', reset);
+
+    saveBtn.addEventListener('click', function () {
+        if (state === 'capturing') endCapture();
+
+        const r = rect();
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = r.width * dpr;
+        exportCanvas.height = r.height * dpr;
+        const ex = exportCanvas.getContext('2d');
+        ex.scale(dpr, dpr);
+        ex.drawImage(canvas, 0, 0, r.width, r.height);
+
+        const link = document.createElement('a');
+        link.download = 'signature.png';
+        link.href = exportCanvas.toDataURL('image/png');
+        link.click();
+    });
+})();
+</script>
+
+</body>
+</html>
