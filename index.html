@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>הצעת מחיר והסכם התקשרות - Flex Living Riba Roja</title>
+    <title>הצעות מחיר · ביני פרידמן</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,8 @@
             --line: #d8d4ce;
             --line-light: #ebe8e3;
             --accent: #323d38;
-            --page-bg: #ffb9b9;
+            --page-bg: #f4f2ee;
+            --card-bg: #ffffff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,540 +24,204 @@
         body {
             font-family: 'Heebo', 'Segoe UI', sans-serif;
             font-size: 16px;
-            line-height: 1.75;
+            line-height: 1.7;
             color: var(--ink-body);
             background: var(--page-bg);
-            padding: 32px 24px 48px;
+            padding: 48px 24px 64px;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* דף A4 */
-        .page {
-            width: 260mm;
-            min-height: 297mm;
-            max-width: 100%;
+        .wrap {
+            max-width: 920px;
             margin: 0 auto;
-            background: #fff;
-            padding: 22mm 20mm 24mm;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-            display: flex;
-            flex-direction: column;
         }
 
-        /* ── כותרת + פרטי מסמך ── */
-        .doc-header {
+        header.masthead {
             border-bottom: 2px solid var(--ink);
-            padding-bottom: 16px;
-            margin-bottom: 28px;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
         }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            font-size: 13px;
-            color: var(--ink-muted);
-        }
-
-        .header-info {
-            display: flex;
-            align-items: baseline;
-            gap: 16px;
-        }
-
-        .doc-type {
-            font-weight: 600;
-            color: var(--accent);
-            letter-spacing: 0.02em;
-        }
-
-        .doc-header h1 {
-            font-size: 20px;
+        header.masthead h1 {
+            font-size: 28px;
             font-weight: 700;
             color: var(--ink);
-            line-height: 1.45;
-            margin-bottom: 14px;
+            letter-spacing: -0.01em;
         }
 
-        .header-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 24px;
-            font-size: 13.5px;
-            color: var(--ink-body);
-            padding-top: 12px;
-            border-top: 1px solid var(--line-light);
-        }
-
-        .header-meta span {
-            white-space: nowrap;
-        }
-
-        .client-details {
-            font-size: 13.5px;
-            color: var(--ink-body);
-            padding-top: 12px;
-            border-top: 1px solid var(--line-light);
-            line-height: 1.65;
-        }
-
-        .client-details .label {
+        header.masthead p {
+            font-size: 15px;
             color: var(--ink-muted);
+            margin-top: 6px;
         }
 
-        .client-sub,
-        .client-contact {
-            font-size: 13px;
-            color: var(--ink-muted);
-            margin-top: 4px;
-        }
+        .group { margin-bottom: 44px; }
 
-        .header-meta .label {
-            color: var(--ink-muted);
-            font-weight: 400;
-        }
-
-        .header-meta .label::after {
-            content: '\00a0';
-        }
-
-        /* ── סעיפים ── */
-        .section {
-            margin-bottom: 28px;
-        }
-
-        h2 {
+        .group-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 15.5px;
+            font-size: 14px;
             font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 14px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--line);
-        }
-
-        h2 .icon {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
             color: var(--accent);
-        }
-
-        p {
-            margin-bottom: 12px;
-            font-size: 15px;
-            color: var(--ink-body);
-        }
-
-        p:last-child { margin-bottom: 0; }
-
-        /* ── סעיפי עבודה (ממוספרים כמו בחוזה) ── */
-        .clause {
             margin-bottom: 18px;
-            padding-right: 0;
         }
 
-        .clause:last-child { margin-bottom: 0; }
+        .group-title .count {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ink-muted);
+            background: var(--line-light);
+            border-radius: 999px;
+            padding: 1px 9px;
+        }
 
-        h3 {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 6px;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
             display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-
-        h3 .num {
-            color: var(--accent);
-            font-weight: 700;
-            min-width: 20px;
-        }
-
-        .clause p {
-            font-size: 15px;
-            padding-right: 28px;
-            margin-bottom: 0;
-        }
-
-        .clause p strong {
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        /* ── רשימות ── */
-        .terms-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .terms-list > li {
-            position: relative;
-            padding-right: 18px;
-            margin-bottom: 14px;
-            font-size: 15px;
-            line-height: 1.72;
-        }
-
-        .terms-list > li::before {
-            content: '–';
-            position: absolute;
-            right: 0;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .terms-list > li:last-child { margin-bottom: 0; }
-
-        .terms-list strong {
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        /* ── מחיר ── */
-        .price-block {
+            flex-direction: column;
+            background: var(--card-bg);
             border: 1px solid var(--line);
-            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
         }
 
-        .price-row {
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            transform: translateY(-2px);
+        }
+
+        .card-client {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--ink-muted);
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+
+        .card-foot {
+            margin-top: auto;
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            gap: 24px;
-            padding: 14px 16px;
-            background: #fafaf9;
-            border-bottom: 1px solid var(--line);
+            padding-top: 14px;
+            border-top: 1px solid var(--line-light);
         }
 
-        .price-row .amount {
-            font-size: 17px;
+        .card-amount {
+            font-size: 16px;
             font-weight: 700;
             color: var(--ink);
             white-space: nowrap;
         }
 
-        .price-note {
-            font-size: 14.5px;
+        .card-tag {
+            font-size: 12.5px;
             color: var(--ink-muted);
-            padding: 0 2px;
         }
 
-        .price-note strong {
-            color: var(--ink-body);
-            font-weight: 600;
+        .card.tool .card-foot {
+            border-top: none;
+            padding-top: 0;
         }
 
-        /* ── פרטי העברה בנקאית ── */
-        .bank-note {
-            margin-top: 16px;
+        .card.tool .card-open {
             font-size: 13.5px;
-            color: var(--ink-muted);
-            line-height: 1.65;
-        }
-
-        .bank-note strong {
-            color: var(--ink-body);
             font-weight: 600;
+            color: var(--accent);
         }
 
-        /* ── חתימות ── */
-        .signatures {
-            margin-top: auto;
-            padding-top: 24px;
-            border-top: 1px solid var(--line);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-        }
-
-        .sig-block {
-            text-align: center;
-        }
-
-        .sig-name {
-            font-weight: 600;
-            font-size: 14.5px;
-            color: var(--ink);
-            margin-bottom: 6px;
-        }
-
-        .sig-company {
-            font-size: 12.5px;
-            color: var(--ink-muted);
-            line-height: 1.5;
-        }
-
-        .sig-line {
-            border-bottom: 1px solid var(--ink);
-            margin-top: 16px;
-            margin-bottom: 6px;
-            position: relative;
-            min-height: 72px;
-        }
-
-        .sig-image {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 200px;
-            max-height: 64px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            pointer-events: none;
-        }
-
-        .sig-image[hidden] {
-            display: none;
-        }
-
-        .sig-label {
+        footer.foot {
+            margin-top: 8px;
             font-size: 12.5px;
             color: var(--ink-muted);
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 16px 12px 32px;
-                font-size: 15px;
-            }
-
-            .page {
-                width: 100%;
-                min-height: auto;
-                padding: 22px 18px 28px;
-            }
-
-            .doc-header {
-                margin-bottom: 22px;
-            }
-
-            .doc-header h1 {
-                font-size: 17px;
-            }
-
-            .header-info {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-
-            .header-meta {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .header-meta span {
-                white-space: normal;
-            }
-
-            .client-contact {
-                word-break: break-word;
-            }
-
-            .section {
-                margin-bottom: 22px;
-            }
-
-            h2 {
-                font-size: 14.5px;
-                gap: 8px;
-            }
-
-            h2 .icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            p, .clause p, .terms-list > li {
-                font-size: 14.5px;
-            }
-
-            .clause p {
-                padding-right: 20px;
-            }
-
-            .price-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 6px;
-                padding: 12px 14px;
-            }
-
-            .signatures {
-                grid-template-columns: 1fr;
-                gap: 36px;
-                margin-top: 32px;
-            }
-
-            .sig-line {
-                margin-top: 32px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 6px;
-            }
-
-            .page {
-                padding: 18px 14px 24px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-                border-radius: 2px;
-            }
-
-            .doc-header h1 {
-                font-size: 16px;
-            }
-
-            .bank-note {
-                font-size: 13px;
-            }
-        }
-
-        @media print {
-            body { background: #fff; padding: 0; }
-            .page { box-shadow: none; width: 100%; padding: 15mm 18mm; }
+        @media (max-width: 600px) {
+            body { padding: 32px 16px 48px; }
+            header.masthead h1 { font-size: 23px; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="page">
+<div class="wrap">
 
-    <header class="doc-header">
-        <div class="header-top">
-            <div class="header-info">
-                <span class="doc-type">הסכם התקשרות שיווקית</span>
-                <span id="doc-date"></span>
-            </div>
-        </div>
-        <h1>הצעת מחיר והסכם התקשרות:<br>אסטרטגיית שיווק וניהול פאנל משקיעים</h1>
-        <div class="header-meta">
-            <span><span class="label">פרויקט:</span>Flex Living Riba Roja (ולנסיה)</span>
-            <span><span class="label">מאת:</span>ביני פרידמן – ייעוץ ואסטרטגיה שיווקית</span>
-        </div>
-        <div class="client-details">
-            <div><span class="label">לכבוד:</span> Uriel Nabel – EL FORTIN CONSTRUCCIONES Y PATRIMONIO SL</div>
-        </div>
+    <header class="masthead">
+        <h1>הצעות מחיר</h1>
+        <p>ביני פרידמן · ריכוז ההצעות, החשבוניות והכלים ללקוחות</p>
     </header>
 
-    <section class="section">
-        <h2>תפיסת העבודה: שותפות מבוססת תוצאות ודאטה</h2>
-        <p>אנחנו לא בונים תשתיות מורכבות לשם הבנייה, אלא פועלים בגישה רזה ואג'ילית (Lean & Agile). חומרי השיווק והעמודים הם "נכסים חיים" שישתנו וידויקו תוך כדי תנועה על בסיס נתונים מהשטח. החלטות על הוספת או שינוי נכסים דיגיטליים יתקבלו יחד, אך ורק אם לולאת המשוב (Feedback Loop) תראה שהדבר נחוץ כדי להגדיל את כמות ואיכות הפגישות ביומן.</p>
-    </section>
-
-    <section class="section">
-        <h2>פירוט תוכנית העבודה (הקמה + חודש ראשון)</h2>
-
-        <div class="clause">
-            <h3><span class="num">1.</span> פיצוח אסטרטגי – תחקיר שטח</h3>
-            <p>פגישת מחקר עומק עם היזם לחילוץ תובנות מאינטראקציות ושיחות עבר עם משקיעים (מה עבד, מה היו ההתנגדויות). זיקוק נרטיב האמון והגדרת קבוצות המיקוד המדויקות לשלב א'.</p>
-        </div>
-
-        <div class="clause">
-            <h3><span class="num">2.</span> הקמת המשפך המדויק וחיבור יומן (The Funnel)</h3>
-            <p>בניית מסלול דיגיטלי מהיר שמוביל את המשקיע הפוטנציאלי מרגע שראה מודעה ועד לתיאום פגישה:<br>
-            • <strong>עמוד נחיתה ממוקד המרה:</strong> הצגת הפרויקט, הנתונים הפיננסיים, שאלון סינון קצר, ואינטגרציה של מערכת לקביעת פגישות ישירות ביומן של היזם.<br>
-            • <strong>חומרים תומכי מכירה דינמיים:</strong> עיצוב והתאמת חומרי הגלם הקיימים (שכבר התקבלו) לכדי מסמך דיגיטלי נגיש (One-Pager) המגבה את שיחת המכירה של היזם, ומאפשר מעקב אחר אחוז הקריאה והמעורבות של הליד.</p>
-        </div>
-
-        <div class="clause">
-            <h3><span class="num">3.</span> תשתית קבועה, לולאת משוב ואוטומציה</h3>
-            <p>האלמנטים השיווקיים גמישים, אך מערכת הבקרה קבועה ומדויקת כדי לאפשר שיפור מתמיד לאורך 3 חודשי הריצה:<br>
-            • <strong>מערכת מדידת עומק (Analytics):</strong> ניטור התנהגות הגולשים בעמוד ובמסמכים (כמה זמן שהו, איפה התעכבו) לקבלת פידבק מיידי.<br>
-            • <strong>ניהול תהליך המכירה (CRM):</strong> הקמת לוח בקרה מינימלי למעקב אחר סטטוס המשקיעים שקבעו פגישות.<br>
-            • <strong>אוטומציית קשר:</strong> שליחת אישור פגישה ותזכורות אוטומטיות (במייל/וואטסאפ) למשקיע כדי לוודא הגעה לפגישה במועד, לצד התראה ליזם.</p>
-        </div>
-
-        <div class="clause">
-            <h3><span class="num">4.</span> קמפיין ממומן + תקציב מדיה ראשוני</h3>
-            <p>הקמה והשקה של קבוצת מודעות ראשונה בפלטפורמה הנבחרת בתוך 30 יום. תקציב המדיה להרצה הראשונית יחושב בנפרד אחרי גיבוש האסטרטגיה, בתקרה של עד €1,500, בשאיפה להוציא את המינימום הנדרש לקבלת פידבק מהשטח (תקציב המדיה ישולם ישירות לפלטפורמות ואינו כלול בדמי הניהול וההקמה).</p>
+    <section class="group">
+        <div class="group-title">הצעות מחיר <span class="count">2</span></div>
+        <div class="grid">
+            <a class="card" href="flex-living-riba-roja/proposal.html">
+                <div class="card-client">Flex Living Riba Roja</div>
+                <div class="card-desc">אסטרטגיית שיווק וניהול פאנל משקיעים · Uriel Nabel, EL FORTIN</div>
+                <div class="card-foot">
+                    <span class="card-amount">€5,000</span>
+                    <span class="card-tag">ולנסיה</span>
+                </div>
+            </a>
+            <a class="card" href="malka-shimoni/proposal.html">
+                <div class="card-client">ליטל מלכה שמעוני</div>
+                <div class="card-desc">שדרוג חנות – מערכת מארזים, ניהול מלאי וניווט</div>
+                <div class="card-foot">
+                    <span class="card-amount">₪2,950</span>
+                    <span class="card-tag">בניית אתר</span>
+                </div>
+            </a>
         </div>
     </section>
 
-    <section class="section">
-        <h2>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01"/></svg>
-            תנאים מסחריים ולוח זמנים
-        </h2>
-        <div class="price-block">
-            <div class="price-row">
-                <span>עלות כוללת (שלב א' – אסטרטגיה, הקמת משפך, אופטימיזציה וניהול חודש ראשון)</span>
-                <span class="amount">€5,000</span>
-            </div>
-        </div>
-        <p class="price-note"><strong>לוח זמנים לעלייה לאוויר:</strong> פאנל פעיל ומודעות באוויר בתוך 30 ימי עבודה מחתימת ההסכם וקבלת חומרי הגלם.</p>
-    </section>
-
-    <section class="section">
-        <h2>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            מודל פעילות והצלחה (חודשים 2 ו-3)
-        </h2>
-        <p>מתוך הבנה שמחזור מכירות בעסקאות נדל"ן דורש זמן הבשלה (Sales Cycle) וכי המטרה המשותפת שלנו היא יציאה מהירה לשטח וטעינת המשפך, נעבוד במודל היברידי שמייצר שותפות אינטרסים מלאה:</p>
-        <ul class="terms-list">
-            <li><strong>דמי ניהול ואופטימיזציה שוטפת (ריטיינר חודשי):</strong> €1,700 בחודש (עבור חודשים 2 ו-3). תשלום זה מבטיח ניהול קמפיינים יומי, ניתוח נתוני מעורבות, ועדכון שוטף ומהיר של המסרים בחומרי המכירה ובעמודים בהתאם לפידבק מהשטח.</li>
-            <li><strong>עמלת הצלחה (Success Bonus):</strong> בונוס של €2,500 ישולם עם חתימת חוזה מכירה עבור כל יחידה שתימכר למשקיע שהגיע דרך מערך השיווק הדיגיטלי, ללא הגבלת זמן או תלות בתוקף החוזה בזמן המכירה בפועל.</li>
-            <li><strong>קיזוז מעמלת ההצלחה:</strong> מכל תשלום בונוס יקוזזו תחילה כל ההוצאות התפעוליות של המשפך (למעט תקציב המדיה המשולם ישירות לפלטפורמות), ובכלל זה דמי ההקמה (€5,000) ודמי הניהול החודשיים (€1,700 לחודש). בונוס נטו ישולם רק לאחר שסך הבונוסים המצטבר עולה על סך ההוצאות המקוזזות.</li>
-            <li><strong>הגדרת מקור הליד:</strong> בהתאם לסיכום, ייחשבו כליד של מערך השיווק הדיגיטלי משקיעים שהגיעו דרך הקמפיין או המשפך הדיגיטלי. בהתחשב בכך שמדובר בפרויקט בקנה מידה קטן (עד 9 יחידות), מקור ההגעה ייוודע בשיחה ישירה עם המשקיע – ללא צורך במנגנון ייחוס מורכב.</li>
-        </ul>
-    </section>
-
-    <section class="section">
-        <h2>
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            תנאי תשלום ותקופת מחויבות מינימלית
-        </h2>
-        <ul class="terms-list">
-            <li><strong>תשלום מראש:</strong> דמי ההקמה (חודש 1) והריטיינר החודשי (חודשים 2 ו-3) ישולמו מראש בתחילת כל חודש פעילות רלוונטי.</li>
-            <li><strong>תקופת מחויבות מינימלית:</strong> על מנת לאפשר לתשתית השיווקית לצבור דאטה, לבצע אופטימיזציה ולהביא לתוצאות בשטח, הסכם זה נחתם לתקופת פעילות מינימלית בלתי ניתנת לביטול של 3 חודשים.</li>
-            <li><strong>מכירה מוקדמת:</strong> מוסכם כי גם במקרה בו כלל היחידות בפרויקט יימכרו לפני תום תקופת 3 החודשים, התחייבות הלקוח לתשלום הריטיינר החודשי עבור מלוא התקופה (3 חודשים) תישאר בעינה.</li>
-            <li><strong>סיום ההתקשרות לאחר תקופת המינימום:</strong> החל מהחודש הרביעי ואילך, כל צד רשאי להביא הסכם זה לסיומו בהודעה בכתב של 30 יום מראש.</li>
-        </ul>
-        <div class="bank-note">
-            <strong>פרטי העברה בנקאית:</strong>
-            בנימין פרידמן · Israel Discount Bank Ltd.<br>
-            IBAN: IL89 0115 1000 0012 0948 623 · SWIFT/BIC: IDBLILITXXX
+    <section class="group">
+        <div class="group-title">חשבוניות <span class="count">1</span></div>
+        <div class="grid">
+            <a class="card" href="flex-living-riba-roja/invoice-01.html">
+                <div class="card-client">Flex Living Riba Roja</div>
+                <div class="card-desc">Invoice 2026-001</div>
+                <div class="card-foot">
+                    <span class="card-amount">חשבונית</span>
+                    <span class="card-tag">#001</span>
+                </div>
+            </a>
         </div>
     </section>
 
-    <div class="signatures">
-        <div class="sig-block">
-            <div class="sig-name">ביני פרידמן</div>
-            <div class="sig-line">
-                <img class="sig-image" src="signature.png" alt="">
-            </div>
-            <div class="sig-label">חתימת השולח</div>
+    <section class="group">
+        <div class="group-title">כלים</div>
+        <div class="grid">
+            <a class="card tool" href="signature-pad.html">
+                <div class="card-client">משטח חתימה</div>
+                <div class="card-desc">יצירת קובץ חתימה (PNG) להטמעה בהצעות</div>
+                <div class="card-foot">
+                    <span class="card-open">פתיחה ←</span>
+                </div>
+            </a>
         </div>
-        <div class="sig-block">
-            <div class="sig-name">Uriel Nabel</div>
-            <div class="sig-line"></div>
-            <div class="sig-label">חתימת הנמען לאישור</div>
-        </div>
-    </div>
+    </section>
+
+    <footer class="foot">מסמכים ב-HTML · ניתן לפתוח, להדפיס ולשמור כ-PDF ישירות מהדפדפן</footer>
 
 </div>
-
-<script>
-(function () {
-    const months = [
-        'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
-        'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'
-    ];
-    const now = new Date();
-    const el = document.getElementById('doc-date');
-    if (el) {
-        el.textContent = now.getDate() + ' ב' + months[now.getMonth()] + ' ' + now.getFullYear();
-    }
-})();
-</script>
 
 </body>
 </html>
