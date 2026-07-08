@@ -6,28 +6,40 @@ A collection of the price quotes, invoices, and supporting tools I send to clien
 
 ## מבנה / Structure
 
-כל לקוח/עסקה יושב בתיקייה עצמאית משלו, וכל הקבצים הקשורים אליו (הצעה, חשבונית, PDF, לוגו, חתימה) נמצאים באותה תיקייה. שמות הקבצים מציינים את תפקידם.
+הכל שטוח בשורש הפרויקט. תבנית, חתימה ולוגו (בעתיד) משותפים ברמה העליונה. כל מסמך ללקוח נקרא לפי `{date}-{client}-{type}`.
 
-Each client/deal lives in its own self‑contained folder; every file for that deal (proposal, invoice, PDF, logo, signature) sits together. File names state their purpose.
+Everything lives flat at the repo root. Template, signature, and logo (later) are shared at the top level. Each client document is named `{date}-{client}-{type}`.
 
 ```
 .
-├── index.html                  # דף הבית – ריכוז כל ההצעות והחשבוניות
-├── signature-pad.html          # כלי: יצירת קובץ חתימה (PNG)
-├── flex-living-riba-roja/
-│   ├── proposal.html           # הצעת מחיר
-│   ├── invoice-01.html         # חשבונית
-│   ├── proposal.pdf            # ייצוא PDF
-│   ├── el-fortin-logo.png      # לוגו הלקוח
-│   └── signature.png           # חתימה
-└── malka-shimoni/
-    ├── proposal.html
-    └── signature.png
+├── index.html                              # דף הבית
+├── template.html                           # תבנית ליצירת הצעות חדשות
+├── signature.png                           # חתימה משותפת
+├── signature-pad.html                      # כלי ליצירת/עדכון החתימה
+├── 2026-07-03-flex-living-quote.html
+├── 2026-07-03-flex-living-invoice-01.html
+├── 2026-07-03-flex-living-quote.pdf
+├── 2026-07-03-flex-living-logo.png
+├── 2026-07-08-malka-shimoni-quote.html
+└── 2026-07-08-malka-shimoni-quote.pdf
 ```
+
+## שמות קבצים / File naming
+
+```
+YYYY-MM-DD-{client}-{type}.{ext}
+```
+
+| type | דוגמה |
+|------|--------|
+| `quote` | `2026-07-08-malka-shimoni-quote.html` |
+| `invoice-01` | `2026-07-03-flex-living-invoice-01.html` |
+| `quote.pdf` | ייצוא PDF |
+| `logo` | לוגו ספציפי ללקוח (אם נדרש) |
 
 ## הוספת הצעה חדשה / Adding a new quote
 
-1. צרו תיקייה חדשה לפי שם הלקוח/העסקה (למשל `acme-corp/`).
-2. הוסיפו את הקבצים בשמות תפקיד: `proposal.html`, `invoice-01.html`, `signature.png` וכו'. הכי פשוט להעתיק תיקייה קיימת כתבנית.
-3. נכסים בתוך התיקייה מקושרים בנתיב יחסי מקומי (למשל `signature.png`), כך שהתיקייה נשארת עצמאית.
-4. הוסיפו כרטיס מקשר בקובץ `index.html`.
+1. העתיקו את `template.html` לשם חדש: `YYYY-MM-DD-client-quote.html`
+2. מלאו את התוכן והחליפו את `[placeholders]`
+3. החתימה נטענת אוטומטית מ-`signature.png` בשורש
+4. הוסיפו כרטיס מקשר ב-`index.html`
