@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצעת מחיר – שדרוג חנות ליטל מלכה שמעוני</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #161513;
+            --ink-body: #292726;
+            --ink-muted: #787470;
+            --line: #d8d4ce;
+            --line-light: #ebe8e3;
+            --accent: #323d38;
+            --page-bg: #ffb9b9;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Heebo', 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--ink-body);
+            background: var(--page-bg);
+            padding: 32px 24px 48px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* דף A4 */
+        .page {
+            width: 260mm;
+            min-height: 297mm;
+            max-width: 100%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 22mm 20mm 24mm;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── כותרת + פרטי מסמך ── */
+        .doc-header {
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 16px;
+            margin-bottom: 28px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            font-size: 13px;
+            color: var(--ink-muted);
+        }
+
+        .header-info {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+        }
+
+        .doc-type {
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        .doc-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.45;
+            margin-bottom: 14px;
+        }
+
+        .header-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 24px;
+            font-size: 13.5px;
+            color: var(--ink-body);
+            padding-top: 12px;
+            border-top: 1px solid var(--line-light);
+        }
+
+        .header-meta span {
+            white-space: nowrap;
+        }
+
+        .header-meta .label {
+            color: var(--ink-muted);
+            font-weight: 400;
+        }
+
+        .header-meta .label::after {
+            content: '\00a0';
+        }
+
+        /* ── סעיפים ── */
+        .section {
+            margin-bottom: 28px;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15.5px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        h2 .icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: var(--accent);
+        }
+
+        p {
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--ink-body);
+        }
+
+        p:last-child { margin-bottom: 0; }
+
+        /* ── סעיפי עבודה (ממוספרים) ── */
+        .clause {
+            margin-bottom: 20px;
+        }
+
+        .clause:last-child { margin-bottom: 0; }
+
+        .clause-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 6px;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink);
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        h3 .num {
+            color: var(--accent);
+            font-weight: 700;
+            min-width: 20px;
+        }
+
+        .clause-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        .clause p {
+            font-size: 15px;
+            padding-right: 28px;
+            margin-bottom: 0;
+        }
+
+        .clause p strong {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        /* ── רשימות פנימיות ── */
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0 0;
+        }
+
+        .item-list > li {
+            position: relative;
+            padding-right: 46px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.72;
+        }
+
+        .item-list > li::before {
+            content: '•';
+            position: absolute;
+            right: 28px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .item-list > li:last-child { margin-bottom: 0; }
+
+        /* ── רשימות ── */
+        .terms-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .terms-list > li {
+            position: relative;
+            padding-right: 18px;
+            margin-bottom: 14px;
+            font-size: 15px;
+            line-height: 1.72;
+        }
+
+        .terms-list > li::before {
+            content: '–';
+            position: absolute;
+            right: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .terms-list > li:last-child { margin-bottom: 0; }
+
+        .terms-list strong {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        /* ── מחיר ── */
+        .price-block {
+            border: 1px solid var(--line);
+            margin-bottom: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 24px;
+            padding: 14px 16px;
+            background: #fafaf9;
+        }
+
+        .price-row .amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        /* ── חתימות ── */
+        .signatures {
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .sig-block {
+            text-align: center;
+        }
+
+        .sig-name {
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+
+        .sig-line {
+            border-bottom: 1px solid var(--ink);
+            margin-top: 16px;
+            margin-bottom: 6px;
+            position: relative;
+            min-height: 72px;
+        }
+
+        .sig-image {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 200px;
+            max-height: 64px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .sig-image[hidden] {
+            display: none;
+        }
+
+        .sig-label {
+            font-size: 12.5px;
+            color: var(--ink-muted);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px 12px 32px;
+                font-size: 15px;
+            }
+
+            .page {
+                width: 100%;
+                min-height: auto;
+                padding: 22px 18px 28px;
+            }
+
+            .doc-header {
+                margin-bottom: 22px;
+            }
+
+            .doc-header h1 {
+                font-size: 17px;
+            }
+
+            .header-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .header-meta span {
+                white-space: normal;
+            }
+
+            .section {
+                margin-bottom: 22px;
+            }
+
+            h2 {
+                font-size: 14.5px;
+                gap: 8px;
+            }
+
+            h2 .icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            p, .clause p, .terms-list > li, .item-list > li {
+                font-size: 14.5px;
+            }
+
+            .clause-head {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .price-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+                padding: 12px 14px;
+            }
+
+            .signatures {
+                grid-template-columns: 1fr;
+                gap: 36px;
+                margin-top: 32px;
+            }
+
+            .sig-line {
+                margin-top: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 6px;
+            }
+
+            .page {
+                padding: 18px 14px 24px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+                border-radius: 2px;
+            }
+
+            .doc-header h1 {
+                font-size: 16px;
+            }
+        }
+
+        @media print {
+            body { background: #fff; padding: 0; }
+            .page { box-shadow: none; width: 100%; padding: 15mm 18mm; }
+            .sig-image {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <header class="doc-header">
+        <div class="header-top">
+            <div class="header-info">
+                <span class="doc-type">הצעת מחיר</span>
+                <span id="doc-date"></span>
+            </div>
+            <span>בתוקף ל-30 יום</span>
+        </div>
+        <h1>הצעת מחיר – שדרוג חנות<br>ליטל מלכה שמעוני</h1>
+        <div class="header-meta">
+            <span><span class="label">מאת:</span>ביני פרידמן – פיתוח והתאמות אתר</span>
+            <span><span class="label">לכבוד:</span>ליטל מלכה שמעוני</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>מה תקבלו</h2>
+        <p>פתרון מותאם אישית לחנות, שנבנה ונבדק על הנתונים האמיתיים של האתר (לא תוסף גנרי מהמדף) – עם ליווי ואחריות שוטפת.</p>
+    </section>
+
+    <section class="section">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            פירוט העבודה
+        </h2>
+
+        <div class="clause">
+            <div class="clause-head">
+                <h3><span class="num">1.</span> סרגל ניווט ראשי (דסקטופ + מובייל)</h3>
+                <span class="clause-price">₪450</span>
+            </div>
+            <p>סרגל תפריט עליון ברור עם כל הקטגוריות הראשיות. לחיצה על קטגוריה פותחת את תתי-הקטגוריות שלה. ניווט נוח ואחיד בכל המכשירים.</p>
+        </div>
+
+        <div class="clause">
+            <div class="clause-head">
+                <h3><span class="num">2.</span> מערכת מארזים + ניהול מלאי מדויק</h3>
+                <span class="clause-price">₪2,500</span>
+            </div>
+            <ul class="item-list">
+                <li>בעמוד המוצר הלקוח בוחר איזה אריח ייכנס למארז, מתוך רשימת האריחים הקיימת (למשל להחליף "אנא בכח" ב"ברכת הכהנים"). המארז נוסף לסל כפריט אחד עם מחיר מאוחד.</li>
+                <li>כל פריט שיוצא מהמלאי בפועל יורד מהמלאי – בין אם נמכר בנפרד ובין אם נמכר כחלק ממארז, כולל החזרת מלאי בביטול הזמנה.</li>
+                <li>סוף לניהול מלאי ידני ולמכירת יתר.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="price-block">
+            <div class="price-row">
+                <span>סה"כ בנייה (חד-פעמי)</span>
+                <span class="amount">₪2,950</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01"/></svg>
+            תנאי תשלום
+        </h2>
+        <p>50% בתחילת העבודה, 50% בעת המסירה.</p>
+    </section>
+
+    <section class="section">
+        <h2>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            הערות
+        </h2>
+        <ul class="terms-list">
+            <li>המחיר מבוסס על מבנה הקטגוריות והמוצרים הקיים באתר.</li>
+            <li>המרה/סידור של מארזים ישנים שהוגדרו באופן לא אחיד – לפי שעות עבודה (₪280/שעה) ותתואם מראש בנפרד.</li>
+            <li>התאמות לתוספים חיצוניים (מחירים דינמיים, גיפט קארד, נקודות) ולתקלות קיימות בתבנית – ככל שיידרש, יתואמו בנפרד.</li>
+        </ul>
+    </section>
+
+    <div class="signatures">
+        <div class="sig-block">
+            <div class="sig-name">ביני פרידמן</div>
+            <div class="sig-line">
+                <img class="sig-image" id="sender-signature" src="signature.png" alt="">
+            </div>
+            <div class="sig-label">חתימת השולח</div>
+        </div>
+        <div class="sig-block">
+            <div class="sig-name">ליטל מלכה שמעוני</div>
+            <div class="sig-line"></div>
+            <div class="sig-label">חתימת הנמען לאישור</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+(function () {
+    const months = [
+        'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
+        'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'
+    ];
+    const now = new Date();
+    const el = document.getElementById('doc-date');
+    if (el) {
+        el.textContent = now.getDate() + ' ב' + months[now.getMonth()] + ' ' + now.getFullYear();
+    }
+
+    const sig = document.getElementById('sender-signature');
+    if (sig) {
+        sig.addEventListener('error', function () { sig.hidden = true; });
+        sig.addEventListener('load', function () {
+            if (sig.naturalWidth === 0) sig.hidden = true;
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
